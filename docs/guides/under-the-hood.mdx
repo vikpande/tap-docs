@@ -1,0 +1,156 @@
+---
+title: Under the Hood
+sidebar_position: 3
+sidebar_label: Under the hood
+---
+
+# Under the Hood
+
+A technical deep dive into how TAP works.
+
+## The End-to-End Flow
+
+### Step 1: Build the Agent
+
+A developer creates an agent, for example "PortfolioMax AI," a trading assistant built on LangChain.
+
+### Step 2: Register the Agent
+
+The developer registers the agent with TAP.
+
+```json
+{
+  "name": "PortfolioMax AI",
+  "owner": "FinTech Corp",
+  "owner_id": "did:cheqd:mainnet:FintechCorp",
+  "category": "Financial Trading",
+  "description": "Automated portfolio management"
+}
+```
+
+TAP checks the request, calls Cheqd to create a DID, and stores the registration details.
+
+### Step 3: Infrastructure Verification
+
+The agent deploys to EigenCloud.
+
+EigenCloud confirms that the compute environment is trusted and issues a verification credential to Cheqd.
+
+### Step 4: Data Verification
+
+The developer submits training data to a verifier such as TheHive.ai, which reviews data quality and issues another credential.
+
+### Step 5: TAP Verification and Passport Creation
+
+TAP collects all credentials from Cheqd, checks them for validity, and creates the AI Agent Passport.
+
+Example output:
+
+```json
+{
+  "agent": {
+    "did": "did:cheqd:mainnet:FintechCorp",
+    "name": "PortfolioMax AI"
+  },
+  "trustscore": {
+    "overall": 96.2,
+    "infrastructure": 98.2,
+    "data_quality": 94.0
+  }
+}
+```
+
+### Step 6: Marketplace Listing
+
+The verified agent appears on the OneStopAgents marketplace:
+
+```
+PortfolioMax AI
+TAP Verified ✅
+Trust Score: 96.2 / 100
+Infrastructure: EigenCloud (TEE verified)
+Data Quality: TheHive.ai
+Compliance: SEC
+```
+
+## Architecture
+
+TAP sits in the middle of the system, linking Cheqd for identity and EigenCloud for computation.
+
+```
+[Agent] → [TAP] → [Cheqd] → [EigenCloud]
+            ↓
+      [Audit Logs]
+```
+
+TAP is built on open standards including:
+
+- **DID (Decentralized Identifiers)**: For agent identity
+- **VC (Verifiable Credentials)**: For credential issuance and verification
+- **TEE (Trusted Execution Environment)**: For secure attestation
+
+## TAP Core Modules
+
+It runs a few main modules:
+
+### Policy Engine
+
+Stores and enforces trust rules
+
+### Verification Module
+
+Checks credentials through Cheqd APIs
+
+### Attestation Module
+
+Confirms execution proofs from EigenCloud
+
+### Compliance Logger
+
+Records all decisions with timestamps
+
+### Alert System
+
+Flags expired or invalid credentials
+
+### Ratings Module
+
+Giving a trust score for the request
+
+## Example TAP Rules
+
+```json
+{
+  "policies": [
+    {
+      "id": "TAP-001",
+      "rule": "Agent must hold a valid passport from an approved issuer",
+      "verify_vc": true
+    },
+    {
+      "id": "TAP-002",
+      "rule": "Only public_data tasks can be executed in this PoC",
+      "enforce_attestation": true
+    },
+    {
+      "id": "TAP-003",
+      "rule": "Every task must have an EigenCloud attestation hash",
+      "require_attestation": true
+    }
+  ]
+}
+```
+
+These rules are simple and readable. They define what's allowed, how credentials are verified, and what happens if something fails.
+
+## Security Model
+
+TAP employs multiple layers of security:
+
+- Cryptographic signatures for all credentials
+- TEE-based attestation for sensitive operations
+- Zero-knowledge proofs for privacy-preserving verification
+
+## Learn More
+
+See our [Proof of Concept](/guides/proof-of-concept) to see TAP in action.

@@ -1,0 +1,47 @@
+---
+title: TAP Workflow
+sidebar_position: 2
+sidebar_label: TAP workflow
+---
+
+# TAP Workflow
+
+The Trust Assurance Protocol (TAP) workflow encompasses the complete journey from agent development to marketplace deployment. Here's how it works:
+
+## Workflow Overview:
+
+1. **Agent Development & Registration**
+   - Developers build AI agents using supported frameworks (LangChain, Kite SDK, etc.)
+   - Register the agent with TAP by providing metadata and ownership proof
+   - Receive a unique agent identifier for tracking
+
+2. **Identity & Credential Issuance**
+   - TAP coordinates with Cheqd to issue Decentralized Identifiers (DIDs)
+   - Agent receives initial verifiable credentials establishing its identity
+   - Credentials are cryptographically signed and stored on-chain
+
+3. **Multi-Layer Verification**
+   - **Compute Verification**: EigenCloud validates the execution environment using TEE attestation
+   - **Data Quality**: TheHive.ai reviews training data for bias, completeness, and compliance
+   - **Policy Compliance**: TAP Policy Engine checks against regulatory requirements (EU AI Act, GDPR, etc.)
+
+4. **TrustScore Calculation**
+   - TAP aggregates all verification results from partners
+   - Computes a composite TrustScore based on weighted criteria
+   - Issues the AI Agent Passport containing all verified credentials
+
+5. **Marketplace Publication**
+   - Verified agents are published to OneStopAgents marketplace
+   - Users can view TrustScore, credentials, and verification details
+   - Agents become available for task execution
+
+6. **Runtime Monitoring & Compliance**
+   - Continuous logging of agent activities and task executions
+   - Manual auditors review compliance logs and investigate anomalies
+   - Periodic re-verification ensures ongoing trust integrity
+
+![TAP Workflow](/img/tap_workflow.jpeg)
+
+## Next Steps
+
+Explore the technical implementation details in [Under the hood](under-the-hood) or check out our [Integrations](integrations) for detailed partner workflows.

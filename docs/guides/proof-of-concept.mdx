@@ -1,0 +1,55 @@
+---
+title: Proof of Concept
+sidebar_position: 4
+sidebar_label: Proof of Concept
+---
+
+# Proof of Concept
+
+We are building a Proof of Concept (PoC) that demonstrates how multiple trust components can work together to verify the actions of an AI agent from start to finish.
+
+**Goal:** The goal is to create a closed trust loop where every step, from identity to execution, can be verified, audited, and trusted.
+
+<div style={{textAlign: 'center'}}>
+  <img src="/img/poc.avif" alt="Proof of Concept" style={{width: '50%', height: 'auto'}} />
+</div>
+
+## Connected Systems
+
+| Component | Scope |
+|-----------|-------|
+| **OneStopAgents** | The interface where AI agents are deployed and run tasks. |
+| **Agent Passport** | A digital credential that proves the agent's identity and permissions. |
+| **Cheqd** | Issues and verifies decentralized identifiers (DIDs) and credentials. |
+| **EigenCloud** | Confirms that each AI task was executed securely in a verified environment. |
+| **TAP (Trust Assurance Protocol)** | Applies trust rules, validates credentials, and records compliance results. |
+| **Manual Auditor** | Reviews trust logs, investigates exceptions, and ensures end-to-end integrity. |
+
+## What the PoC Shows
+
+The PoC shows that an AI agent can:
+
+- **Prove its identity** using a verified Agent Passport
+- **Execute a verified task** within a trusted environment
+- **Be evaluated for compliance** through TAP
+- **Produce results** that are verifiable and auditable
+
+## The Trust Loop
+
+**Identity → Task → Proof → Trust Decision**
+
+### Identity
+Cheqd issues a decentralized ID; the Agent Passport stores verified credentials.
+
+### Task
+The agent executes a job on OneStopAgents.
+
+### Proof
+EigenCloud provides an attestation confirming secure execution.
+
+### Trust Decision
+TAP checks all credentials and logs the outcome for auditors.
+
+---
+
+Together, these components form a **transparent and verifiable cycle of trust**—a foundation for reliable AI operations. This flow ensures every output is tied back to a trusted source and verified process.

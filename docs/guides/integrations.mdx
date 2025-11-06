@@ -1,0 +1,154 @@
+---
+title: Integrations
+sidebar_position: 5
+sidebar_label: Integrations
+---
+
+# Integrations
+
+## A. Sequential Workflow Diagram
+
+![Sequential Diagram Workflow](/img/seq_diagram_workflow.jpeg)
+
+### Workflow steps:
+
+1. **Developer registers the agent with TAP.**
+
+2. **TAP calls Cheqd** for identity issuance and VC validation.
+
+3. **EigenCloud provides infrastructure attestation** → credential stored in Cheqd.
+
+4. **Data verifier (TheHive.ai) provides dataset quality credential** → stored in Cheqd.
+
+5. **TAP aggregates all proofs**, computes the TrustScore, and issues the AI Agent Passport.
+
+6. **Verified agents appear on OneStopAgents**, with runtime execution continuing to produce logs.
+
+7. **Manual Auditors** oversee compliance, investigate anomalies, and maintain network integrity.
+
+---
+
+## B. Trust Assurance Protocol — Partner-Based Flow
+
+![Sequential Diagram Events](/img/seq_diagram_events.jpeg)
+
+### 1. Developer / Project Owner
+
+**Objective:** Initiate trust registration for their AI agent.
+
+**Steps:**
+
+1. Build the AI agent (e.g., "PortfolioMax AI") using frameworks like LangChain or Kite SDK.
+
+2. Submit agent registration to TAP.
+
+3. Provide metadata and proof of ownership to TAP for initial identity verification.
+
+4. Optionally upload model metadata, training dataset links, and compliance references (SEC, GDPR, etc.).
+
+---
+
+### 2. TAP (Trust Assurance Protocol)
+
+**Objective:** Orchestrate trust verification and enforce policy compliance.
+
+**Core Responsibilities:**
+
+- **Identity Orchestration:** Requests DIDs and credentials from Cheqd.
+
+- **Verification Logic:** Enforces rules via the Policy Engine:
+  - **TAP-001:** Agent must hold valid DID/VC.
+  - **TAP-002:** Only approved tasks allowed in this phase (e.g., public_data).
+  - **TAP-003:** All executions must carry an EigenCloud attestation hash.
+
+- **Attestation & Compliance:**
+  - Validates infra proof from EigenCloud.
+  - Validates data proof from TheHive.ai.
+  - Logs all results via Compliance Logger.
+
+- **TrustScore Generation:**
+  
+  Aggregates verified results to create a composite trust profile.
+
+- **Publication:** Pushes verified agents and scores to OneStopAgents marketplace.
+
+---
+
+### 3. Cheqd (Identity & Credential Layer)
+
+**Objective:** Manage decentralized identifiers (DIDs) and verifiable credentials (VCs).
+
+**Responsibilities:**
+
+1. Issue DIDs for the developer and their AI agent.
+
+2. Store and sign credentials related to:
+   - Agent identity (ownership, organization)
+   - Compute verification (from EigenCloud)
+   - Data quality credentials (from TheHive.ai)
+
+3. Provide APIs for TAP to check revocation status, validity, and expiry of all VCs.
+
+4. Act as the source of truth for identity and credential integrity.
+
+---
+
+### 4. EigenCloud (Trusted Compute Layer)
+
+**Objective:** Verify that the AI agent's runtime environment is secure.
+
+**Responsibilities:**
+
+1. Provide TEE-based secure execution environment for deployed agents.
+
+2. Generate cryptographic attestation proofs that confirm:
+   - Model execution occurred within a verified enclave.
+   - No tampering or data leakage occurred.
+
+3. Issue a compute verification credential to Cheqd.
+
+4. Respond to TAP's verification queries with attestation hash confirmations.
+
+---
+
+### 5. Data Verifier (e.g., TheHive.ai)
+
+**Objective:** Validate training or operational datasets for quality and compliance.
+
+**Responsibilities:**
+
+1. Review submitted datasets for bias, quality, and completeness.
+
+2. Issue a data verification credential (VC) to Cheqd, confirming data quality score.
+
+3. Optionally include metadata such as source integrity, dataset size, and domain applicability.
+
+---
+
+### 6. OneStopAgents Marketplace
+
+**Objective:** Publicly list TAP-verified agents for end users and enterprises.
+
+**Responsibilities:**
+
+1. Display verified agent metadata, TrustScore, and verification details.
+
+2. Serve as the execution interface for task requests and results.
+
+3. Log runtime task calls back to TAP for compliance and re-verification.
+
+---
+
+### 7. Manual Auditor
+
+**Objective:** Provide human oversight, integrity assurance, and exception handling.
+
+**Responsibilities:**
+
+1. Periodically review compliance logs, audit trails, and anomalies from TAP.
+
+2. Verify evidence hashes (attestations, timestamps, VCs).
+
+3. Flag inconsistencies or revoke credentials if trust violations occur.
+
+4. Sign off on periodic trust integrity reports.
